@@ -30,9 +30,14 @@ class Contact {
       phoneColumn: this.phone,
       imgColumn: this.img,
     };
-    
+
     if (this.id != null) {
       map[idColumn] = this.id;
+    }
+
+    @override
+    String toString() {
+      return "Contact(id: $id, name: $name, email: $email, phone: $phone)";
     }
 
     return map;
