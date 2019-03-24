@@ -60,14 +60,36 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         children: <Widget>[
           Container(
-            width: 80,
-            height: 80,
+            width: 60,
+            height: 60,
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                     image: contact.img != null
-                        ? FileImage(File(contact.img))
+
+                        // ? FileImage(File(contact.img))
+                        ? AssetImage('images/person.png')
                         : AssetImage('images/person.png'))),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  contact.name ?? "",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  contact.email ?? "",
+                  style: TextStyle(fontSize: 14),
+                ),
+                Text(
+                  contact.phone ?? "",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
           )
         ],
       ),
