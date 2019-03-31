@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts_clone/helpers/contact_helper.dart';
+import 'package:flutter_contacts_clone/ui/contact_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -38,7 +39,9 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          this._showContactPage();
+        },
         backgroundColor: Colors.red,
         child: Icon(Icons.add),
       ),
@@ -55,43 +58,52 @@ class _HomePageState extends State<HomePage> {
   Widget contactCard(BuildContext context, int index) {
     Contact contact = contacts[index];
     return GestureDetector(
+        onTap: () {
+          this._showContactPage(contact: contact);
+        },
         child: Card(
             child: Padding(
-      child: Row(
-        children: <Widget>[
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: contact.img != null
-                        ? FileImage(File(contact.img))
-                        : AssetImage('images/person.png'))),
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: contact.img != null
+                            ? FileImage(File(contact.img))
+                            : AssetImage('images/person.png'))),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      contact.name ?? "",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      contact.email ?? "",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    Text(
+                      contact.phone ?? "",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  contact.name ?? "",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  contact.email ?? "",
-                  style: TextStyle(fontSize: 14),
-                ),
-                Text(
-                  contact.phone ?? "",
-                  style: TextStyle(fontSize: 14),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-      padding: EdgeInsets.all(10),
-    )));
+          padding: EdgeInsets.all(10),
+        )));
+  }
+
+  void _showContactPage({Contact contact}) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ContactPage(contact: contact)));
   }
 }
