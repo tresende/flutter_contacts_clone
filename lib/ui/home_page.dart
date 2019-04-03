@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
     Contact contact = contacts[index];
     return GestureDetector(
         onTap: () {
-          this._showContactPage(contact: contact);
+          this._showOptions(context, index);
         },
         child: Card(
             child: Padding(
@@ -116,5 +116,58 @@ class _HomePageState extends State<HomePage> {
       }
     }
     this.getAllContacts();
+  }
+
+  void _showOptions(BuildContext context, int index) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return BottomSheet(
+            builder: (context) {
+              return Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: FlatButton(
+                        onPressed: () {},
+                        child: Text("Ligar",
+                            style: TextStyle(color: Colors.red, fontSize: 20)),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          _showContactPage(contact: contacts[index]);
+                        },
+                        child: Text("Editar",
+                            style: TextStyle(color: Colors.red, fontSize: 20)),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: FlatButton(
+                        onPressed: () {
+                          setState(() {
+                            helper.deleteContact(contacts[index].id);
+                            contacts.removeAt(index);
+                            Navigator.pop(context);
+                          });
+                        },
+                        child: Text("Excluir",
+                            style: TextStyle(color: Colors.red, fontSize: 20)),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+            onClosing: () {},
+          );
+        });
   }
 }
