@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts_clone/helpers/contact_helper.dart';
 import 'package:flutter_contacts_clone/ui/contact_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,12 +17,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // Contact contact = Contact();
-    // contact.name = 'Thiago';
-    // contact.email = 'thiago.gcresende@gmail.com';
-    // contact.phone = '+55(99)9-9999-9999';
-    // contact.img = 'teste.png';
-    // this.helper.saveContact(contact);
     this.getAllContacts();
   }
 
@@ -132,7 +127,10 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: EdgeInsets.all(10),
                       child: FlatButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          launch("tel:${contacts[index].phone}");
+                          Navigator.pop(context);
+                        },
                         child: Text("Ligar",
                             style: TextStyle(color: Colors.red, fontSize: 20)),
                       ),
