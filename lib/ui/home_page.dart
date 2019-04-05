@@ -5,6 +5,8 @@ import 'package:flutter_contacts_clone/helpers/contact_helper.dart';
 import 'package:flutter_contacts_clone/ui/contact_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+enum OrderOptions { ordemaz, ordemza }
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -32,6 +34,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          PopupMenuButton<OrderOptions>(
+            onSelected: _orderList,
+            itemBuilder: (context) => <PopupMenuEntry<OrderOptions>>[
+                  const PopupMenuItem<OrderOptions>(
+                    child: Text("Ordenar de A-Z"),
+                    value: OrderOptions.ordemaz,
+                  ),
+                  const PopupMenuItem<OrderOptions>(
+                    child: Text("Ordenar de Z-A"),
+                    value: OrderOptions.ordemza,
+                  ),
+                ],
+          )
+        ],
         title: Text("Contatos"),
         backgroundColor: Colors.red,
       ),
@@ -111,6 +128,22 @@ class _HomePageState extends State<HomePage> {
       }
     }
     this.getAllContacts();
+  }
+
+  void _orderList(OrderOptions result) {
+    switch (result) {
+      case OrderOptions.ordemaz:
+        contacts.sort((a, b) {
+          return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+        });
+        break;
+      case OrderOptions.ordemza:
+        contacts.sort((b, a) {
+          return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+        });
+        break;
+    }
+    setState(() {});
   }
 
   void _showOptions(BuildContext context, int index) {
